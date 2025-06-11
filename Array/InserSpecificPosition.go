@@ -14,6 +14,6 @@ func main() {
 
 	ind := 2
 	for i := len(arr); i > ind; i-- {
-		arr[i]
+		arr[i]==k
 	}
 }
