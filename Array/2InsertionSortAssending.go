@@ -6,17 +6,17 @@ func insertionSort(arr []int) {
 	n := len(arr)
 
 	for i := 1; i < n; i++ {
-		// key := arr[i]
+		key := arr[i]
 		j := i - 1
 
 		fmt.Printf("\nStep %d: inserting %d\n", i, arr[i])
 
-		for j >= 0 && arr[j] > arr[i] {
-			arr[(j)+1] = arr[j]
+		for j >= 0 && arr[j] > key {
+			arr[j+1] = arr[j]
 			j--
 		}
 
-		arr[j+1] = arr[i]
+		arr[j+1] = key
 
 		fmt.Println("Current array:", arr)
 	}

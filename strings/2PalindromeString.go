@@ -17,9 +17,8 @@ import "fmt"
 func isPalindrome(str string) bool {
 	left := 0
 	right := len(str) - 1
-	n := len(str) - 1
 
-	for i := 0; i < n/2; i++ {
+	for i := 0; i < right/2; i++ {
 		if str[left] == str[right] && str[right] == str[left] {
 			return true
 		}
