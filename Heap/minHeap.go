@@ -2,64 +2,76 @@ package main
 
 import "fmt"
 
-type minHeap struct {
+type MinHeap struct {
 	data []int
 }
 
-func (h *minHeap) Insert(value int) {
-	h.data = append(h.data, value)
+// Insert an element into the heap
+//
+//	func (h *MinHeap) Insert(val int) {
+//		h.data = append(h.data, val)
+//		i := len(h.data) - 1
+//		for i > 0 {
+//			parent := (i - 1) / 2
+//			if h.data[parent] <= h.data[i] {
+//				break
+//			}
+//			h.data[i], h.data[parent] = h.data[parent], h.data[i]
+//			i = parent
+//		}
+//	}
+func (h *MinHeap) Insert(val int) {
+	h.data = append(h.data, val)
 	h.heapifyUp(len(h.data) - 1)
 }
 
-func (h *minHeap) Peek() int {
+// Peek returns the minimum element
+func (h *MinHeap) Peek() int {
 	if len(h.data) == 0 {
-		panic("Heap is empty")
+		panic("heap is empty")
 	}
 	return h.data[0]
 }
 
-// remove and return the smallest element)
-func (h *minHeap) ExtractMin() int {
+// ExtractMin removes and returns the minimum element
+func (h *MinHeap) ExtractMin() int {
 	if len(h.data) == 0 {
 		panic("heap is empty")
 	}
 	min := h.data[0]
 	last := h.data[len(h.data)-1]
 	h.data = h.data[:len(h.data)-1]
-
 	if len(h.data) > 0 {
 		h.data[0] = last
 		h.heapifyDown(0)
 	}
-
 	return min
 }
 
-func BuildHeap(arr []int) *minHeap {
-	h := &minHeap{data: arr}
-	for i := len(h.data)/2 - 1; i >= 0; i-- {
-		h.heapifyDown(i)
+func (h *MinHeap) Delete(index int) {
+	if index < 0 || index >= len(h.data) {
+		panic("index out of range")
 	}
-	return h
+	h.data[index] = h.data[len(h.data)-1]
+	h.data = h.data[:len(h.data)-1]
+	h.heapifyDown(index)
+	h.heapifyUp(index)
 }
 
-// heapifyUp Used after inserting a new element at the end of the heap.
-func (h *minHeap) heapifyUp(i int) {
-	for i > 0 {
-		parent := (i - 1) / 2
-		if h.data[parent] <= h.data[i] {
+func (h *MinHeap) heapifyUp(index int) {
+	for index > 0 {
+		parent := (index - 1) / 2
+		if h.data[parent] <= h.data[index] {
 			break
 		}
-
-		h.data[i], h.data[parent] = h.data[parent], h.data[i]
-		i = parent
+		h.data[parent], h.data[index] = h.data[index], h.data[parent]
+		index = parent
 	}
 }
 
-// Used after removing the root
-func (h *minHeap) heapifyDown(i int) {
+// heapifyDown restores the heap property from top → down
+func (h *MinHeap) heapifyDown(i int) {
 	n := len(h.data)
-
 	for {
 		left := 2*i + 1
 		right := 2*i + 2
@@ -78,21 +90,26 @@ func (h *minHeap) heapifyDown(i int) {
 		i = smallest
 	}
 }
-
 func main() {
-	h := &minHeap{}
+	h := &MinHeap{}
 
-	h.Insert(10)
+	// Insert values
+	h.Insert(20)
 	h.Insert(5)
-	h.Insert(3)
+	h.Insert(15)
 	h.Insert(2)
-	h.Insert(8)
 
-	fmt.Println("Min:", h.Peek())
-	fmt.Println("Eexracted:", h.ExtractMin())
-	fmt.Println("New min:", h.Peek())
+	fmt.Println("Min:", h.Peek()) // 2
 
-	arr := []int{7, 9, 4, 1, 6}
-	newHeap := BuildHeap(arr)
-	fmt.Println("Min from built heap:", newHeap.Peek())
+	// Extract Min
+	fmt.Println("Extracted Min:", h.ExtractMin()) // 2
+
+	// Current Min
+	fmt.Println("Min now:", h.Peek()) // 5
+
+	// Delete index 1 (value 20)
+	h.Delete(1)
+
+	// Min after deletion
+	fmt.Println("Min after delete:", h.Peek()) // 5
 }

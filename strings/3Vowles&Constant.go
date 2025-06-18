@@ -23,6 +23,7 @@ func countVowelsAndConstant(str string) (int, int) {
 		}
 	}
 	return vowelsCount, constantsCount
+
 }
 
 func main() {

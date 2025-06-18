@@ -21,4 +21,5 @@ func main() {
 	for word, count := range frequency {
 		fmt.Printf("%s:%d\n", word, count)
 	}
+
 }
